@@ -1,0 +1,176 @@
+2008-01-10  Øyvind Kolås     <pippin@o-hand.com>
+
+	* Imported into svn.
+
+2007-10-20  Øyvind Kolås     <pippin@gimp.org>
+
+	* Duplicated the clutter-cairo tree, and adapted it to render for
+	  GEGL instead of cairo.
+
+2007-08-15  Emmanuele Bassi  <ebassi@openedhand.com>
+
+	* configure.ac:
+	* Makefile.am:
+	* clutter-gegl.pc.in: Bump up to 0.5.0 and require clutter-0.5
+	as well.
+
+2007-08-07  Emmanuele Bassi  <ebassi@openedhand.com>
+
+	* configure.ac: Bump up to 0.4.0.
+
+	* clutter-gegl.pc.in: Require clutter-0.4.
+
+2007-08-01  Emmanuele Bassi  <ebassi@openedhand.com>
+
+	* clutter-gegl.c: Now that we ensure that we are not accessing
+	the gegl_surface_t object when the texture actor has been destroyed
+	before the gegl_t context, we can destroy the surface when disposing
+	of the texture.
+
+2007-08-01  Emmanuele Bassi  <ebassi@openedhand.com>
+
+	* clutter-gegl.c: Attach the ClutterGegl texture actor to the
+	surface and use clutter_surface_finish() to dispose of the
+	gegl_surface_t we use to generate the gegl context. This plugs
+	a reference count bug in the bindings where the context is not
+	destroyed before the end of the program.
+
+2007-07-30  Emmanuele Bassi  <ebassi@openedhand.com>
+
+	* clutter-gegl.[ch]: Add clutter_gegl_set_source_color(), a
+	utility function for setting a ClutterColor as the source color
+	for a Gegl context.
+
+2007-07-17  Emmanuele Bassi  <ebassi@openedhand.com>
+
+	* Makefile.am: Install the headers into the clutter-0.x include
+	directory, so that each integration library header files are
+	self-contained into the include directory of the clutter version
+	they are linking to.
+
+	* clutter-gegl.pc.in: Update template, and require gegl.
+
+2007-07-06  Matthew Allum  <mallum@openedhand.com>
+
+	* clutter-gegl.pc.in:
+	* configure.ac:
+	Fix pc and library versioning (also bump to 0.3.1)
+
+2007-06-29  Matthew Allum  <mallum@openedhand.com>
+
+	* configure.ac:
+	Bump up version to 0.3
+
+2007-06-11  Neil J. Patel  <njp@o-hand.com>
+
+	* clutter-gegl.c: (gegl_destroy_func):
+	* examples/clock.c: (main):
+	* examples/flowers.c: (main):
+	Update to work with clutter-0.3 
+
+	* configure.ac:
+	Update to check for clutter-0.3
+	Update for 0.2 release.
+
+================== 2007-03-27 0.1 Release ===============================
+
+2007-03-27  Matthew Allum  <mallum@openedhand.com>
+
+	* clutter-gegl.c: (gegl_destroy_func):
+	Remove old commented out code
+	* clutter-gegl.doap:
+	Update for 0.1 Release
+
+2007-03-25  Emmanuele Bassi  <ebassi@openedhand.com>
+
+	* examples/flowers.c: Use less flowers.
+
+	* examples/clock.c: Remove C99-isms; get the stage width and
+	height from the actor instead of hardcoding it; quit on button
+	press.
+
+	* clutter-gegl.c: Remove useless chain up in the class
+	initialisation code: we are deriving from ClutterTexture already;
+	add G_PARAM_STATIC_NICK to the parameters flags; check for
+	endianess when de-multiplying the alpha of the surface before
+	feeding it to GL.
+
+2007-03-22  Matthew Allum  <mallum@openedhand.com>
+
+	* clutter-gegl.pc.in:
+	Bump up to require clutter-0.2
+
+2007-03-22  Matthew Allum  <mallum@openedhand.com>
+
+	* clutter-gegl.c: 
+	* clutter-gegl.h:
+	Simplify API to just two calls via hooking into gegl_destroy()
+	as to then sync the image surface to GL texture.
+	* configure.ac:
+	Require gegl 1.4 (For gegl_set_user_data ())
+	* examples/clock.c: 
+	* examples/flowers.c:
+	Update for newer API.
+
+2006-11-30  Matthew Allum  <mallum@openedhand.com>
+
+	* clutter-gegl.doap:
+	Add a doap file
+
+2006-09-15  Matthew Allum  <mallum@openedhand.com>
+
+	* Makefile.am:
+	* examples/Makefile.am:
+	* examples/flowers.c:
+	Misc fixes from Bastien Nocera, see #153.
+
+2006-08-27  Matthew Allum  <mallum@openedhand.com>
+
+	* clutter-gegl.pc.in:
+	Reference clutter-1.0 in .pc rather than just clutter
+
+2006-08-26  Matthew Allum  <mallum@openedhand.com>
+
+	* configure.ac:
+	* examples/Makefile.am:
+	* Makefile.am:
+	* clock.c:
+	* flowers.c:
+	Add examples to autofoo.
+
+2006-08-26  Matthew Allum  <mallum@openedhand.com>
+
+	* Makefile:
+	* Makefile.am:
+	* autogen.sh:
+	* clutter-gegl.pc.in:
+	* configure.ac:
+	Add initial autofoo
+
+2006-08-15  Matthew Allum  <mallum@openedhand.com>
+
+	* clutter-gegl.c: (clutter_gegl_end):
+	Add another de premull method ( no difference )
+	* flowers.c:
+	Add some alpha.. Fix color randomness selection.
+
+2006-08-14  Matthew Allum  <mallum@openedhand.com>
+
+	* flowers.c: (make_flower_actor):
+	lower tolerance value for better quality.
+
+2006-08-14  Matthew Allum  <mallum@openedhand.com>
+
+	* clutter-gegl.c: (clutter_gegl_new), (clutter_gegl_end):
+	Convert Gegl surface data correctly to pixbuf and un pre-mul
+        alpha.
+	* flowers.c: (make_flower_actor), (tick):
+	Minor tweaks to flower generation.
+
+2006-08-13  Matthew Allum  <mallum@openedhand.com>
+
+	* Makefile:
+	* flowers.c:
+	Add a new gegl demo/toy drawing 10's of randomly generated 
+        falling spinning flowers.
+

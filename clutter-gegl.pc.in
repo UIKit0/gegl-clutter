@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: clutter-gegl
+Description: Clutter Gegl integrarion library
+Version: @VERSION@
+Libs: -L${libdir} -lclutter-gegl-@CLUTTER_GEGL_MAJORMINOR@
+Cflags: -I${includedir}/clutter-0.5/clutter-gegl
+Requires: clutter-0.5 gegl

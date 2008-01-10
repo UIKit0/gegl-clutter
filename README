@@ -1,0 +1,7 @@
+ClutterGegl
+============
+
+An experimental clutter gegl-viewer actor. Sucks a bit as it
+always re-uploads a full buffer for the GEGL view, performance
+will improve with clutter (cogl) support for updating rectangular
+subregions to a texture.

@@ -74,29 +74,32 @@ computed_event (GeglNode      *self,
                 ClutterGegl   *view)
 {
   ClutterGeglPrivate  *priv;
-  guchar *buffer = g_malloc (rect->width * rect->height * 4);
+  guchar              *buffer;
 
   g_assert (CLUTTER_IS_ACTOR (view));
+
   priv = CLUTTER_GEGL_GET_PRIVATE (view);
 
   if (!priv->node)
     return;
 
+  buffer = g_malloc (rect->width * rect->height * 4);
   gegl_node_blit (priv->node, priv->scale,
                   rect,
                   babl_format ("R'G'B'A u8"),
                   buffer,
                   rect->width * 4,
-                  GEGL_BLIT_CACHE); 
+                  GEGL_BLIT_CACHE);
 
   clutter_texture_set_area_from_rgb_data (CLUTTER_TEXTURE (view),
                                           buffer,
                                           TRUE,
                                           rect->x, rect->y,
                                           rect->width, rect->height,
-                                          rect->width * 4, 
-                                          4, 0,
-                                          NULL);
+                                          rect->width * 4,  /* rowstride */
+                                          4,                /* bpp   */
+                                          0,                /* flags */
+                                          NULL);            /* error */
   g_free (buffer);
 }
 

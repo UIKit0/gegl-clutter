@@ -1,4 +1,12 @@
-2008-03-03  Øyvind Kolås  <pippin@gimp.org>
+2008-03-03  Øyvind Kolås  <pippin@o-hand.com>
+
+	* Makefile.am: create clutter-gegl-x.x.pc from clutter-gegl.pc
+
+	* configure.ac:
+	* clutter-gegl.pc.in: updated clutter dependency to 0.6, updated
+	clutter-gegl version to 0.6 as well.
+
+2008-03-03  Øyvind Kolås  <pippin@o-hand.com>
 
 	* examples/parsexml.c: updated default composition to match current
 	GEGL default composition.

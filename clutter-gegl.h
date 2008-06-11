@@ -86,9 +86,12 @@ clutter_gegl_get_type                          (void) G_GNUC_CONST;
 
 ClutterActor * clutter_gegl_parse_xml          (const gchar *xml);
 
-ClutterActor * clutter_gegl_new_from_gegl_node (guint        width,
-                                                guint        height,
-                                                GeglNode    *node);
+ClutterActor * clutter_gegl_new_from_gegl_node (GeglNode    *node);
+
+ClutterActor * clutter_gegl_new_from_gegl_node_with_size (GeglNode    *node,
+                                                          guint        width,
+                                                          guint        height);
+                                                
 
 G_END_DECLS
 

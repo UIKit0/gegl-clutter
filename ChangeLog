@@ -1,5 +1,13 @@
 2008-06-11  Øyvind Kolås  <pippin@gimp.org>
 
+	* clutter-gegl.[ch]: copmuted the desired render size from the nodes
+	bounding box for the default simple constructor.
+	* examples/Makefile.am: made the makefile build all .c files into
+	individual binaries.
+	* examples/parsexml.c: (main): set the stage size to the actor size.
+
+2008-06-11  Øyvind Kolås  <pippin@gimp.org>
+
 	* Makefile.am: install in 0.7 directories.
 	* configure.ac: update clutter requirement to 0.7
 	* clutter-gegl.pc.in: fixed paths to reflect 0.7

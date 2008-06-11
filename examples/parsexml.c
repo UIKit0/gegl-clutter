@@ -40,7 +40,6 @@ main (int argc, char **argv)
   gegl_init (&argc, &argv);
 
   stage = clutter_stage_get_default ();
-  clutter_actor_set_size (stage, 512, 384);
   g_signal_connect (stage, "button-press-event",
                     G_CALLBACK (clutter_main_quit),
                     NULL);
@@ -57,8 +56,10 @@ main (int argc, char **argv)
       gegl = gegl_node_new_from_xml (DEFAULT_COMPOSITION, "");
     }
 
-  geglview = clutter_gegl_new_from_gegl_node (512, 384, gegl);
+  geglview = clutter_gegl_new_from_gegl_node (gegl);
   clutter_group_add (CLUTTER_GROUP(stage), geglview);
+  clutter_actor_set_size (stage, clutter_actor_get_width (geglview),
+                                 clutter_actor_get_height (geglview));
 
   clutter_actor_show_all (CLUTTER_ACTOR(stage));
 

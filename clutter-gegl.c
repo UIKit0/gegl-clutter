@@ -40,8 +40,8 @@ G_DEFINE_TYPE (ClutterGegl, clutter_gegl, CLUTTER_TYPE_TEXTURE);
 enum
 {
   PROP_0,
-  PROP_SURFACE_WIDTH,
-  PROP_SURFACE_HEIGHT,
+  PROP_RENDER_WIDTH,
+  PROP_RENDER_HEIGHT,
   PROP_NODE,
   PROP_X,
   PROP_Y,
@@ -109,9 +109,7 @@ invalidated_event (GeglNode      *self,
                    ClutterGegl   *view)
 {
   gegl_view_repaint (view);
-#if 0
   clutter_actor_queue_redraw (CLUTTER_ACTOR (view));
-#endif
 }
 
 static void
@@ -128,7 +126,7 @@ clutter_gegl_set_property (GObject      *object,
 
   switch (prop_id)
     {
-      case PROP_SURFACE_WIDTH:
+      case PROP_RENDER_WIDTH:
         priv->width = g_value_get_int (value);
         if (priv->buffer)
           {
@@ -138,7 +136,7 @@ clutter_gegl_set_property (GObject      *object,
         clutter_actor_queue_redraw (CLUTTER_ACTOR(gegl));
         break;
 
-      case PROP_SURFACE_HEIGHT:
+      case PROP_RENDER_HEIGHT:
         priv->height = g_value_get_int (value);
         if (priv->buffer)
           {
@@ -204,11 +202,11 @@ clutter_gegl_get_property (GObject    *object,
 
   switch (prop_id)
     {
-      case PROP_SURFACE_WIDTH:
+      case PROP_RENDER_WIDTH:
         g_value_set_int (value, priv->width);
         break;
 
-      case PROP_SURFACE_HEIGHT:
+      case PROP_RENDER_HEIGHT:
         g_value_set_int (value, priv->height);
         break;
 
@@ -331,18 +329,18 @@ clutter_gegl_class_init (ClutterGeglClass *klass)
                         G_PARAM_READABLE | G_PARAM_WRITABLE)
 
   g_object_class_install_property (gobject_class,
-                                   PROP_SURFACE_WIDTH,
-                                   g_param_spec_int ("surface-width",
-                                                     "Surface-Width",
-                                                     "Surface Width",
+                                   PROP_RENDER_WIDTH,
+                                   g_param_spec_int ("render-width",
+                                                     "Render-Width",
+                                                     "Base width of rectangle to render",
                                                      0, G_MAXINT,
                                                      0,
                                                      PARAM_FLAGS));
   g_object_class_install_property (gobject_class,
-                                   PROP_SURFACE_HEIGHT,
-                                   g_param_spec_int ("surface-height",
-                                                     "Surface-Height",
-                                                     "Surface Height",
+                                   PROP_RENDER_HEIGHT,
+                                   g_param_spec_int ("render-height",
+                                                     "Render-Height",
+                                                     "Base height of rectangle to render",
                                                      0, G_MAXINT,
                                                      0,
                                                      PARAM_FLAGS));
@@ -403,18 +401,27 @@ clutter_gegl_new (guint width,
                   guint height)
 {
   return g_object_new (CLUTTER_TYPE_GEGL,
-                       "surface-width", width,
-                       "surface-height", height,
+                       "render-width", width,
+                       "render-height", height,
                        NULL);
 }
 
-ClutterActor * clutter_gegl_new_from_gegl_node (guint     width,
-                                                guint     height,
-                                                GeglNode *node)
+
+ClutterActor * clutter_gegl_new_from_gegl_node (GeglNode *node)
+{
+  GeglRectangle extent = gegl_node_get_bounding_box (node);
+  return clutter_gegl_new_from_gegl_node_with_size (node, extent.width, extent.height);
+}
+
+
+
+ClutterActor * clutter_gegl_new_from_gegl_node_with_size (GeglNode *node,
+                                                          guint     width,
+                                                          guint     height)
 {
   return g_object_new (CLUTTER_TYPE_GEGL,
-                       "surface-width", width,
-                       "surface-height", height,
+                       "render-width", width,
+                       "render-height", height,
                        "node", node,
                        NULL);
 }

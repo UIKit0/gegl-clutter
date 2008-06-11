@@ -7,5 +7,5 @@ Name: clutter-gegl
 Description: Clutter Gegl integrarion library
 Version: @VERSION@
 Libs: -L${libdir} -lclutter-gegl-@CLUTTER_GEGL_MAJORMINOR@
-Cflags: -I${includedir}/clutter-0.6/clutter-gegl
-Requires: clutter-0.6 gegl
+Cflags: -I${includedir}/clutter-0.7/clutter-gegl
+Requires: clutter-0.7 gegl

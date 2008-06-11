@@ -1,3 +1,9 @@
+2008-06-11  Øyvind Kolås  <pippin@gimp.org>
+
+	* Makefile.am: install in 0.7 directories.
+	* configure.ac: update clutter requirement to 0.7
+	* clutter-gegl.pc.in: fixed paths to reflect 0.7
+
 2008-03-03  Øyvind Kolås  <pippin@o-hand.com>
 
 	* Makefile.am: create clutter-gegl-x.x.pc from clutter-gegl.pc

@@ -1,3 +1,12 @@
+2008-08-05  Øyvind Kolås  <pippin@o-hand.com>
+
+	Bumped version of clutter-gegl to 0.8.
+
+	* configure.ac: incremented version.
+	* Makefile.am: install in 0.8 directories.
+	* README: reworded.
+	* clutter-gegl.pc.in: fixed paths to reflect 0.7
+
 2008-06-11  Øyvind Kolås  <pippin@gimp.org>
 
 	* clutter-gegl.[ch]: copmuted the desired render size from the nodes

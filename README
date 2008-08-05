@@ -1,7 +1,10 @@
 ClutterGegl
 ============
 
-An experimental clutter gegl-viewer actor. Sucks a bit as it
-always re-uploads a full buffer for the GEGL view, performance
-will improve with clutter (cogl) support for updating rectangular
-subregions to a texture.
+A ClutterActor showing the rendered content of a GeglNode.
+
+ - Multiple ClutterActors for a single GeglNode.
+ - ClutterGegl vies on multiple nodes in a graph.
+ - Automatic updates of views when properties/wiring of GEGL graph changes.
+
+Please send feedback on ClutterGegl to pippin@gimp.org or pippin@o-hand.com.

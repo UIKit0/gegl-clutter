@@ -4,7 +4,7 @@ AC_PREREQ(2.53)
 # An odd micro number indicates in-progress development, (eg. from CVS)
 # An even micro number indicates a released version.
 m4_define(clutter_gegl_version_major, 0)
-m4_define(clutter_gegl_version_minor, 7)
+m4_define(clutter_gegl_version_minor, 8)
 m4_define(clutter_gegl_version_micro, 0)
 
 m4_define([clutter_gegl_version],
@@ -69,7 +69,7 @@ AC_CHECK_FUNCS([memset munmap strcasecmp strdup])
 dnl ========================================================================
 
 
-pkg_modules="clutter-0.7, gegl >= 0.0.14"
+pkg_modules="clutter-0.8, gegl >= 0.0.18"
 PKG_CHECK_MODULES(DEPS, [$pkg_modules])
 
 if test "x$GCC" = "xyes"; then

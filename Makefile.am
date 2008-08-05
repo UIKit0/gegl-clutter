@@ -1,9 +1,9 @@
 SUBDIRS = . examples
 
-clutter-gegl-0.7.pc: clutter-gegl.pc
+clutter-gegl-0.8.pc: clutter-gegl.pc
 	@cp -f $< $@
 
-pkgconfig_DATA = clutter-gegl-0.7.pc
+pkgconfig_DATA = clutter-gegl-0.8.pc
 pkgconfigdir   = $(libdir)/pkgconfig
 
 INCLUDES = @GCC_FLAGS@ @DEPS_CFLAGS@ 
@@ -15,11 +15,11 @@ libclutter_gegl_@CLUTTER_GEGL_MAJORMINOR@_la_LIBADD  = @DEPS_LIBS@
 libclutter_gegl_@CLUTTER_GEGL_MAJORMINOR@_la_LDFLAGS = @CLUTTER_GEGL_LT_LDFLAGS@
 
 clutter_geglheaders_HEADERS = clutter-gegl.h
-clutter_geglheadersdir = $(includedir)/clutter-0.7/clutter-gegl
+clutter_geglheadersdir = $(includedir)/clutter-0.8/clutter-gegl
 
 EXTRA_DIST = clutter-gegl.pc.in
 
-CLEANFILES = clutter-gegl-0.7.pc
+CLEANFILES = clutter-gegl-0.8.pc
 DISTCLEANFILES = clutter-gegl.pc
 
 # Extra clean files so that maintainer-clean removes *everything*

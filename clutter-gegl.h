@@ -29,7 +29,7 @@
 #include <glib-object.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <clutter/clutter-texture.h>
+#include <clutter/clutter.h>
 
 #include <gegl.h>
 

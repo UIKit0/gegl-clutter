@@ -1,5 +1,5 @@
 /*
- * ClutterGegl.
+ * GeglClutter.
  *
  * An simple Clutter GEGL viewer actor:
  *
@@ -23,8 +23,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
-#ifndef _HAVE_CLUTTER_GEGL_H
-#define _HAVE_CLUTTER_GEGL_H
+#ifndef _HAVE_GEGL_CLUTTER_H
+#define _HAVE_GEGL_CLUTTER_H
 
 #include <glib-object.h>
 
@@ -35,63 +35,62 @@
 
 G_BEGIN_DECLS
 
-#define CLUTTER_TYPE_GEGL    clutter_gegl_get_type ()
+#define GEGL_TYPE_CLUTTER    gegl_clutter_get_type ()
 
-#define CLUTTER_GEGL(obj) \
+#define GEGL_CLUTTER(obj) \
   (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                               CLUTTER_TYPE_GEGL, ClutterGegl))
+                               GEGL_TYPE_CLUTTER, GeglClutter))
 
-#define CLUTTER_GEGL_CLASS(klass) \
+#define GEGL_CLUTTER_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_CAST ((klass), \
-                            CLUTTER_TYPE_GEGL, ClutterGeglClass))
+                            GEGL_TYPE_CLUTTER, GeglClutterClass))
 
 #define CLUTTER_IS_GEGL(obj) \
   (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                               CLUTTER_TYPE_GEGL))
+                               GEGL_TYPE_CLUTTER))
 
 #define CLUTTER_IS_GEGL_CLASS(klass) \
   (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                            CLUTTER_TYPE_GEGL))
+                            GEGL_TYPE_CLUTTER))
 
-#define CLUTTER_GEGL_GET_CLASS(obj) \
+#define GEGL_CLUTTER_GET_CLASS(obj) \
   (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-                              CLUTTER_TYPE_GEGL, ClutterGeglClass))
+                              GEGL_TYPE_CLUTTER, GeglClutterClass))
 
-typedef struct _ClutterGegl        ClutterGegl;
-typedef struct _ClutterGeglClass   ClutterGeglClass;
-typedef struct _ClutterGeglPrivate ClutterGeglPrivate;
+typedef struct _GeglClutter        GeglClutter;
+typedef struct _GeglClutterClass   GeglClutterClass;
+typedef struct _GeglClutterPrivate GeglClutterPrivate;
 
-struct _ClutterGegl
+struct _GeglClutter
 {
   ClutterTexture        parent;
 #if 0
   /*< private >*/
-  ClutterGeglPrivate   *priv;
+  GeglClutterPrivate   *priv;
 #endif
 };
 
-struct _ClutterGeglClass
+struct _GeglClutterClass
 {
   /*< private >*/
   ClutterTextureClass parent_class;
 
-  void (*_clutter_gegl_1)(void);
-  void (*_clutter_gegl_2)(void);
-  void (*_clutter_gegl_3)(void);
-  void (*_clutter_gegl_4)(void);
+  void (*_gegl_clutter_1)(void);
+  void (*_gegl_clutter_2)(void);
+  void (*_gegl_clutter_3)(void);
+  void (*_gegl_clutter_4)(void);
 };
 
 GType
-clutter_gegl_get_type                          (void) G_GNUC_CONST;
+gegl_clutter_get_type                          (void) G_GNUC_CONST;
 
-ClutterActor * clutter_gegl_parse_xml          (const gchar *xml);
+ClutterActor * gegl_clutter_parse_xml          (const gchar *xml);
 
-ClutterActor * clutter_gegl_new_from_gegl_node (GeglNode    *node);
+ClutterActor * gegl_clutter_new_from_gegl_node (GeglNode    *node);
 
-ClutterActor * clutter_gegl_new_from_gegl_node_with_size (GeglNode    *node,
+ClutterActor * gegl_clutter_new_from_gegl_node_with_size (GeglNode    *node,
                                                           guint        width,
                                                           guint        height);
-                                                
 
 G_END_DECLS
 

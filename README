@@ -1,5 +1,5 @@
-ClutterGegl
-============
+GeglClutter
+===========
 
 A ClutterActor showing the rendered content of a GeglNode.
 
@@ -7,4 +7,4 @@ A ClutterActor showing the rendered content of a GeglNode.
  - ClutterGegl vies on multiple nodes in a graph.
  - Automatic updates of views when properties/wiring of GEGL graph changes.
 
-Please send feedback on ClutterGegl to pippin@gimp.org or pippin@o-hand.com.
+Please send feedback on GeglClutter to pippin@gimp.org or the GEGL mailing list

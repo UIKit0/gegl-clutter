@@ -3,29 +3,29 @@ AC_PREREQ(2.53)
 # clutter package version number, (as distinct from shared library version)
 # An odd micro number indicates in-progress development, (eg. from CVS)
 # An even micro number indicates a released version.
-m4_define(clutter_gegl_version_major, 1)
-m4_define(clutter_gegl_version_minor, 0)
-m4_define(clutter_gegl_version_micro, 0)
+m4_define(gegl_clutter_version_major, 1)
+m4_define(gegl_clutter_version_minor, 0)
+m4_define(gegl_clutter_version_micro, 0)
 
-m4_define([clutter_gegl_version],
-          [clutter_gegl_version_major.clutter_gegl_version_minor.clutter_gegl_version_micro])
+m4_define([gegl_clutter_version],
+          [gegl_clutter_version_major.gegl_clutter_version_minor.gegl_clutter_version_micro])
 
-m4_define([clutter_gegl_api_version],
-          [clutter_gegl_version_major.clutter_gegl_version_minor])
+m4_define([gegl_clutter_api_version],
+          [gegl_clutter_version_major.gegl_clutter_version_minor])
 
-m4_define([clutter_gegl_interface_age], [0])
-m4_define([clutter_gegl_binary_age],
-          [m4_eval(100 * clutter_gegl_version_minor + clutter_gegl_version_micro)])
+m4_define([gegl_clutter_interface_age], [0])
+m4_define([gegl_clutter_binary_age],
+          [m4_eval(100 * gegl_clutter_version_minor + gegl_clutter_version_micro)])
 
-AC_INIT([clutter-gegl], 
-       clutter_gegl_version_major.clutter_gegl_version_minor.clutter_gegl_version_micro, 
+AC_INIT([gegl-clutter],
+       gegl_clutter_version_major.gegl_clutter_version_minor.gegl_clutter_version_micro,
         [http://bugzilla.o-hand.com/enter_bug.cgi?product=Clutter])
-AC_CONFIG_SRCDIR([clutter-gegl.h])
+AC_CONFIG_SRCDIR([gegl-clutter.h])
 AM_CONFIG_HEADER([config.h])
 
 AM_INIT_AUTOMAKE([1.7])
 
-CLUTTER_GEGL_MAJORMINOR=clutter_gegl_version_major.clutter_gegl_version_minor
+CLUTTER_GEGL_MAJORMINOR=gegl_clutter_version_major.gegl_clutter_version_minor
 AC_SUBST(CLUTTER_GEGL_MAJORMINOR)
 
 # CURRENT, REVISION, AGE
@@ -34,9 +34,9 @@ AC_SUBST(CLUTTER_GEGL_MAJORMINOR)
 # - interfaces added -> increment AGE
 # - interfaces removed -> AGE = 0
 m4_define([lt_current],
-          [m4_eval(100 * clutter_gegl_version_minor + clutter_gegl_version_micro - clutter_gegl_interface_age)])
-m4_define([lt_revision], [clutter_gegl_interface_age])
-m4_define([lt_age], [m4_eval(clutter_gegl_binary_age - clutter_gegl_interface_age)])
+          [m4_eval(100 * gegl_clutter_version_minor + gegl_clutter_version_micro - gegl_clutter_interface_age)])
+m4_define([lt_revision], [gegl_clutter_interface_age])
+m4_define([lt_age], [m4_eval(gegl_clutter_binary_age - gegl_clutter_interface_age)])
 CLUTTER_GEGL_LT_CURRENT=lt_current
 CLUTTER_GEGL_LT_REV=lt_revision
 CLUTTER_GEGL_LT_AGE=lt_age
@@ -81,7 +81,7 @@ AC_SUBST(DEPS_CFLAGS)
 AC_SUBST(DEPS_LIBS)
 
 AC_OUTPUT([Makefile
-clutter-gegl.pc
+gegl-clutter.pc
 examples/Makefile
 ])
 

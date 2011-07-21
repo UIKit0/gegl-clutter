@@ -1,5 +1,5 @@
 /*
- * ClutterGegl.
+ * GeglClutter.
  *
  * An simple Clutter GEGL viewer actor:
  *
@@ -24,18 +24,18 @@
  */
 
 /**
- * SECTION:clutter-gegl
+ * SECTION:gegl-clutter
  * @short_description: Actor for displaying
  *
- * #ClutterGegl is a #ClutterTexture that displays text.
+ * #GeglClutter is a #ClutterTexture that displays text.
  */
-#include "clutter-gegl.h"
+#include "gegl-clutter.h"
 #include <string.h>
 #include <limits.h>
 #include <stdlib.h>
 #include <math.h>
 
-G_DEFINE_TYPE (ClutterGegl, clutter_gegl, CLUTTER_TYPE_TEXTURE);
+G_DEFINE_TYPE (GeglClutter, gegl_clutter, CLUTTER_TYPE_TEXTURE);
 
 enum
 {
@@ -48,10 +48,10 @@ enum
   PROP_SCALE
 };
 
-#define CLUTTER_GEGL_GET_PRIVATE(obj) \
-  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), CLUTTER_TYPE_GEGL, ClutterGeglPrivate))
+#define GEGL_CLUTTER_GET_PRIVATE(obj) \
+  (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GEGL_TYPE_CLUTTER, GeglClutterPrivate))
 
-struct _ClutterGeglPrivate
+struct _GeglClutterPrivate
 {
   GeglNode      *node;
   guchar        *buffer;
@@ -65,20 +65,20 @@ struct _ClutterGeglPrivate
 };
 
 void
-gegl_view_repaint (ClutterGegl *view);
-static void clutter_gegl_render (ClutterGegl *view);
+gegl_view_repaint (GeglClutter *view);
+static void gegl_clutter_render (GeglClutter *view);
 
 static void
 computed_event (GeglNode      *self,
                 GeglRectangle *rect,
-                ClutterGegl   *view)
+                GeglClutter   *view)
 {
-  ClutterGeglPrivate  *priv;
+  GeglClutterPrivate  *priv;
   guchar              *buffer;
 
   g_assert (CLUTTER_IS_ACTOR (view));
 
-  priv = CLUTTER_GEGL_GET_PRIVATE (view);
+  priv = GEGL_CLUTTER_GET_PRIVATE (view);
 
   if (!priv->node)
     return;
@@ -107,10 +107,10 @@ computed_event (GeglNode      *self,
 static void
 invalidated_event (GeglNode      *self,
                    GeglRectangle *rect,
-                   ClutterGegl   *view)
+                   GeglClutter   *view)
 {
   gegl_view_repaint (view);
-  clutter_gegl_render (view); /* */
+  gegl_clutter_render (view); /* */
   clutter_actor_queue_redraw (CLUTTER_ACTOR (view));
 }
 
@@ -124,23 +124,23 @@ static gboolean invalidate_idle (gpointer view)
 }
 
 static void
-queue_invalidated (ClutterGegl *view)
+queue_invalidated (GeglClutter *view)
 {
   if (!rerender_idle)
     rerender_idle = g_idle_add_full (G_PRIORITY_DEFAULT_IDLE+1000, invalidate_idle, view, NULL);
 }
 
 static void
-clutter_gegl_set_property (GObject      *object,
+gegl_clutter_set_property (GObject      *object,
                            guint         prop_id,
                            const GValue *value,
                            GParamSpec   *pspec)
 {
-  ClutterGegl        *gegl;
-  ClutterGeglPrivate *priv;
+  GeglClutter        *gegl;
+  GeglClutterPrivate *priv;
 
-  gegl = CLUTTER_GEGL (object);
-  priv = CLUTTER_GEGL_GET_PRIVATE (gegl);
+  gegl = GEGL_CLUTTER (object);
+  priv = GEGL_CLUTTER_GET_PRIVATE (gegl);
 
   switch (prop_id)
     {
@@ -207,16 +207,16 @@ clutter_gegl_set_property (GObject      *object,
 }
 
 static void
-clutter_gegl_get_property (GObject    *object,
+gegl_clutter_get_property (GObject    *object,
                            guint       prop_id,
                            GValue     *value,
                            GParamSpec *pspec)
 {
-  ClutterGegl        *gegl;
-  ClutterGeglPrivate *priv;
+  GeglClutter        *gegl;
+  GeglClutterPrivate *priv;
 
-  gegl = CLUTTER_GEGL (object);
-  priv = CLUTTER_GEGL_GET_PRIVATE (gegl);
+  gegl = GEGL_CLUTTER (object);
+  priv = GEGL_CLUTTER_GET_PRIVATE (gegl);
 
   switch (prop_id)
     {
@@ -251,12 +251,12 @@ clutter_gegl_get_property (GObject    *object,
 }
 
 static void
-clutter_gegl_dispose (GObject *object)
+gegl_clutter_dispose (GObject *object)
 {
-  ClutterGegl         *self = CLUTTER_GEGL (object);
-  ClutterGeglPrivate  *priv;
+  GeglClutter         *self = GEGL_CLUTTER (object);
+  GeglClutterPrivate  *priv;
 
-  priv = CLUTTER_GEGL_GET_PRIVATE (self);
+  priv = GEGL_CLUTTER_GET_PRIVATE (self);
 
   if (priv->node)
     {
@@ -274,42 +274,42 @@ clutter_gegl_dispose (GObject *object)
       priv->monitor_id = 0;
     }
 
-  G_OBJECT_CLASS (clutter_gegl_parent_class)->dispose (object);
+  G_OBJECT_CLASS (gegl_clutter_parent_class)->dispose (object);
 }
 
 static void
-clutter_gegl_finalize (GObject *object)
+gegl_clutter_finalize (GObject *object)
 {
-  ClutterGegl         *self = CLUTTER_GEGL (object);
-  ClutterGeglPrivate  *priv;
+  GeglClutter         *self = GEGL_CLUTTER (object);
+  GeglClutterPrivate  *priv;
 
-  priv = CLUTTER_GEGL_GET_PRIVATE (self);
+  priv = GEGL_CLUTTER_GET_PRIVATE (self);
 
   if (priv->buffer)
     {
       g_free (priv->buffer);
       priv->buffer = NULL;
     }
-  G_OBJECT_CLASS (clutter_gegl_parent_class)->finalize (object);
+  G_OBJECT_CLASS (gegl_clutter_parent_class)->finalize (object);
 }
 
 
 static GObject*
-clutter_gegl_constructor (GType                  type,
+gegl_clutter_constructor (GType                  type,
                           guint                  n_construct_properties,
                           GObjectConstructParam *construct_properties)
 {
-  ClutterGegl         *view;
-  ClutterGeglPrivate  *priv;
+  GeglClutter         *view;
+  GeglClutterPrivate  *priv;
   GObject             *obj;
 
-  obj = G_OBJECT_CLASS (clutter_gegl_parent_class)->constructor
+  obj = G_OBJECT_CLASS (gegl_clutter_parent_class)->constructor
         (type, n_construct_properties, construct_properties);
 
   /* Now all of the object properties are set */
 
-  view = CLUTTER_GEGL (obj);
-  priv = CLUTTER_GEGL_GET_PRIVATE (view);
+  view = GEGL_CLUTTER (obj);
+  priv = GEGL_CLUTTER_GET_PRIVATE (view);
 
   /*g_return_val_if_fail (priv->width && priv->height, NULL);*/
 
@@ -324,22 +324,22 @@ clutter_gegl_constructor (GType                  type,
 
   clutter_actor_set_size (CLUTTER_ACTOR (view), priv->width, priv->height);
   gegl_view_repaint (view);
-  clutter_gegl_render (view);
+  gegl_clutter_render (view);
   return obj;
 }
 
 static void
-clutter_gegl_class_init (ClutterGeglClass *klass)
+gegl_clutter_class_init (GeglClutterClass *klass)
 {
   GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 
-  gobject_class->finalize     = clutter_gegl_finalize;
-  gobject_class->dispose      = clutter_gegl_dispose;
-  gobject_class->set_property = clutter_gegl_set_property;
-  gobject_class->get_property = clutter_gegl_get_property;
-  gobject_class->constructor  = clutter_gegl_constructor;
+  gobject_class->finalize     = gegl_clutter_finalize;
+  gobject_class->dispose      = gegl_clutter_dispose;
+  gobject_class->set_property = gegl_clutter_set_property;
+  gobject_class->get_property = gegl_clutter_get_property;
+  gobject_class->constructor  = gegl_clutter_constructor;
 
-  g_type_class_add_private (gobject_class, sizeof (ClutterGeglPrivate));
+  g_type_class_add_private (gobject_class, sizeof (GeglClutterPrivate));
 
 #define PARAM_FLAGS    (G_PARAM_CONSTRUCT_ONLY | \
                         G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | \
@@ -398,46 +398,46 @@ clutter_gegl_class_init (ClutterGeglClass *klass)
 }
 
 static void
-clutter_gegl_init (ClutterGegl *self)
+gegl_clutter_init (GeglClutter *self)
 {
-  ClutterGeglPrivate *priv;
-  priv = CLUTTER_GEGL_GET_PRIVATE (self);
+  GeglClutterPrivate *priv;
+  priv = GEGL_CLUTTER_GET_PRIVATE (self);
   priv++; /* shut up gcc */
 }
 
 /**
- * clutter_gegl_new
+ * gegl_clutter_new
  * @width: clutter gegl surface width
  * @height: clutter gegl surface height
  *
- * Creates a new #ClutterGegl texture.
+ * Creates a new #GeglClutter texture.
  *
- * Return value: a #ClutterGegl texture
+ * Return value: a #GeglClutter texture
  */
 ClutterActor*
-clutter_gegl_new (guint width,
+gegl_clutter_new (guint width,
                   guint height)
 {
-  return g_object_new (CLUTTER_TYPE_GEGL,
+  return g_object_new (GEGL_TYPE_CLUTTER,
                        "render-width", width,
                        "render-height", height,
                        NULL);
 }
 
 
-ClutterActor * clutter_gegl_new_from_gegl_node (GeglNode *node)
+ClutterActor * gegl_clutter_new_from_gegl_node (GeglNode *node)
 {
   GeglRectangle extent = gegl_node_get_bounding_box (node);
-  return clutter_gegl_new_from_gegl_node_with_size (node, extent.width, extent.height);
+  return gegl_clutter_new_from_gegl_node_with_size (node, extent.width, extent.height);
 }
 
 
 
-ClutterActor * clutter_gegl_new_from_gegl_node_with_size (GeglNode *node,
+ClutterActor * gegl_clutter_new_from_gegl_node_with_size (GeglNode *node,
                                                           guint     width,
                                                           guint     height)
 {
-  return g_object_new (CLUTTER_TYPE_GEGL,
+  return g_object_new (GEGL_TYPE_CLUTTER,
                        "render-width", width,
                        "render-height", height,
                        "node", node,
@@ -445,15 +445,15 @@ ClutterActor * clutter_gegl_new_from_gegl_node_with_size (GeglNode *node,
 }
 
 static void
-clutter_gegl_render (ClutterGegl *view)
+gegl_clutter_render (GeglClutter *view)
 {
   /* FIXME: should be optimized and handle ROIs (and still keep the buffer around) */
-  ClutterGeglPrivate  *priv;
+  GeglClutterPrivate  *priv;
   GeglRectangle        roi;
   guchar              *buffer;
 
   g_assert (CLUTTER_IS_ACTOR (view));
-  priv = CLUTTER_GEGL_GET_PRIVATE (view);
+  priv = GEGL_CLUTTER_GET_PRIVATE (view);
 
   if (!priv->node)
     return;
@@ -488,23 +488,23 @@ clutter_gegl_render (ClutterGegl *view)
 }
 
 /**
- * clutter_gegl_create
- * @gegl:  A #ClutterGegl texture.
+ * gegl_clutter_create
+ * @gegl:  A #GeglClutter texture.
  *
- * Creates a new gegl context #ClutterGegl texture.
+ * Creates a new gegl context #GeglClutter texture.
  *
  * Return value: a newly created gegl context. Free with gegl_destroy()
  * when you are done drawing.
  */
-ClutterActor * clutter_gegl_parse_xml (const gchar *xml)
+ClutterActor * gegl_clutter_parse_xml (const gchar *xml)
 {
   return NULL;
 }
 
 static gboolean
-task_monitor (ClutterGegl *view)
+task_monitor (GeglClutter *view)
 {
-  ClutterGeglPrivate *priv = CLUTTER_GEGL_GET_PRIVATE (view);
+  GeglClutterPrivate *priv = GEGL_CLUTTER_GET_PRIVATE (view);
   if (priv->processor == NULL ||
       priv->monitor_id == 0)
     {
@@ -519,9 +519,9 @@ task_monitor (ClutterGegl *view)
 }
 
 void
-gegl_view_repaint (ClutterGegl *view)
+gegl_view_repaint (GeglClutter *view)
 {
-  ClutterGeglPrivate *priv = CLUTTER_GEGL_GET_PRIVATE (view);
+  GeglClutterPrivate *priv = GEGL_CLUTTER_GET_PRIVATE (view);
 #if 0
   ClutterActor  *actor = CLUTTER_ACTOR (view);
   GeglRectangle  roi    = { priv->x / priv->scale, priv->y / priv->scale,
@@ -546,8 +546,8 @@ gegl_view_repaint (ClutterGegl *view)
     gegl_processor_set_rectangle (priv->processor, &roi);
 }
 
-GeglProcessor *gegl_view_get_processor (ClutterGegl *view)
+GeglProcessor *gegl_view_get_processor (GeglClutter *view)
 {
-  ClutterGeglPrivate *priv = CLUTTER_GEGL_GET_PRIVATE (view);
+  GeglClutterPrivate *priv = GEGL_CLUTTER_GET_PRIVATE (view);
   return priv->processor;
 }

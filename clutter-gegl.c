@@ -57,7 +57,7 @@ struct _ClutterGeglPrivate
   guchar        *buffer;
   gint           width, height;
   gint           x, y;
-  
+
   gdouble        scale;
 
   guint          monitor_id;
@@ -83,6 +83,7 @@ computed_event (GeglNode      *self,
   if (!priv->node)
     return;
 
+  /* XXX: should reuse a buffer allocation, to reduce alloc/free load */
   buffer = g_malloc (rect->width * rect->height * 4);
   gegl_node_blit (priv->node, priv->scale,
                   rect,
@@ -109,7 +110,24 @@ invalidated_event (GeglNode      *self,
                    ClutterGegl   *view)
 {
   gegl_view_repaint (view);
+  clutter_gegl_render (view); /* */
   clutter_actor_queue_redraw (CLUTTER_ACTOR (view));
+}
+
+static guint rerender_idle = 0;
+
+static gboolean invalidate_idle (gpointer view)
+{
+  invalidated_event (NULL, NULL, view);
+  rerender_idle = 0;
+  return FALSE;
+}
+
+static void
+queue_invalidated (ClutterGegl *view)
+{
+  if (!rerender_idle)
+    rerender_idle = g_idle_add_full (G_PRIORITY_DEFAULT_IDLE+1000, invalidate_idle, view, NULL);
 }
 
 static void
@@ -171,15 +189,15 @@ clutter_gegl_set_property (GObject      *object,
       break;
     case PROP_X:
       priv->x = g_value_get_int (value);
-      clutter_actor_queue_redraw (CLUTTER_ACTOR (gegl));
+      queue_invalidated (gegl);
       break;
     case PROP_Y:
       priv->y = g_value_get_int (value);
-      clutter_actor_queue_redraw (CLUTTER_ACTOR (gegl));
+      queue_invalidated (gegl);
       break;
     case PROP_SCALE:
       priv->scale = g_value_get_double (value);
-      clutter_actor_queue_redraw (CLUTTER_ACTOR (gegl));
+      queue_invalidated (gegl);
       break;
 
       default:
@@ -299,8 +317,8 @@ clutter_gegl_constructor (GType                  type,
       priv->height == 0)
     {
       GeglRectangle r = gegl_node_get_bounding_box (priv->node);
-      priv->width = r.width;      
-      priv->height = r.height;      
+      priv->width = r.width;
+      priv->height = r.height;
     }
 
 
@@ -383,8 +401,8 @@ static void
 clutter_gegl_init (ClutterGegl *self)
 {
   ClutterGeglPrivate *priv;
-  
   priv = CLUTTER_GEGL_GET_PRIVATE (self);
+  priv++; /* shut up gcc */
 }
 
 /**

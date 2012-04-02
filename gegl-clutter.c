@@ -265,7 +265,7 @@ gegl_clutter_dispose (GObject *object)
     }
   if (priv->processor)
     {
-      gegl_processor_destroy (priv->processor);
+      g_object_unref (priv->processor);
       priv->processor = NULL;
     }
   if (priv->monitor_id)
